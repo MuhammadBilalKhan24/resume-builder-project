@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Resume Builder Project</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f8f8;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 6px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 32px;
+        }
+
+        .section {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 6px;
+            color: #555;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="file"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        input[type="file"] {
+            padding: 0;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .button-container {
+            text-align: center;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .profile-pic-container {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .profile-pic-container img {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        /* Resume View */
+        .resume {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-family: 'Arial', sans-serif;
+        }
+
+        .resume h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 28px;
+            color: #333;
+        }
+
+        .resume .section-title {
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 18px;
+            color: #4CAF50;
+        }
+
+        .resume .content {
+            margin-left: 20px;
+            margin-bottom: 12px;
+        }
+
+        .resume .content span {
+            font-weight: normal;
+            color: #555;
+        }
+
+        /* Contact Section */
+        .resume .contact-info {
+            margin-bottom: 20px;
+        }
+
+        .resume .contact-info div {
+            margin-bottom: 6px;
+        }
+
+        .resume .profile-image {
+            margin: 0 auto 20px;
+            text-align: center;
+        }
+
+        /* Skills */
+        .skills-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .skills-list li {
+            background-color: #f4f4f4;
+            margin-bottom: 8px;
+            padding: 8px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .container {
+                width: 100%;
+                max-width: 100%;
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            input[type="text"],
+            input[type="email"],
+            textarea {
+                font-size: 14px;
+                padding: 14px;
+            }
+
+            button {
+                width: 100%;
+                padding: 12px 18px;
+            }
+
+            .profile-pic-container img {
+                width: 80px;
+                height: 80px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 12px;
+            }
+
+            input[type="text"],
+            input[type="email"],
+            textarea {
+                font-size: 14px;
+            }
+
+            .profile-pic-container img {
+                width: 80px;
+                height: 80px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Resume Builder</h1>
+
+        <!-- Profile Picture Section -->
+        <div class="section profile-pic-container">
+            <label for="profilePic">Upload Profile Picture:</label>
+            <input type="file" id="profilePic" name="profilePic" accept="image/*" onchange="loadImage(event)">
+            <div>
+                <img id="profileImage" src="" alt="Profile Picture" style="display: none;">
+            </div>
+        </div>
+
+        <!-- Personal Information Section -->
+        <div class="section">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter your full name">
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email">
+
+            <label for="phone">Phone Number:</label>
+            <input type="text" id="phone" name="phone" placeholder="Enter your phone number">
+        </div>
+
+        <!-- Skills Section -->
+        <div class="section">
+            <div class="section-title">Skills:</div>
+            <label for="skills">List your skills (comma separated):</label>
+            <input type="text" id="skills" name="skills" placeholder="e.g. HTML, CSS, JavaScript">
+        </div>
+
+        <!-- Education Section -->
+        <div class="section">
+            <div class="section-title">Education:</div>
+            <label for="education">Highest Degree or Qualification:</label>
+            <input type="text" id="education" name="education" placeholder="e.g. B.Tech in Computer Science">
+
+            <label for="institution">Institution Name:</label>
+            <input type="text" id="institution" name="institution" placeholder="e.g. XYZ University">
+        </div>
+
+        <!-- Experience Section -->
+        <div class="section">
+            <div class="section-title">Experience:</div>
+            <label for="experience">Previous Job/Internship (if any):</label>
+            <textarea id="experience" name="experience" placeholder="Describe your job/internship experience"></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="button-container">
+            <button type="button" onclick="generateResume()">Generate Resume</button>
+        </div>
+
+        <!-- Generated Resume Section -->
+        <div id="resumeSection" class="resume" style="display: none;">
+            <h2>Generated Resume</h2>
+            <div class="profile-image">
+                <img id="resumeImage" src="" alt="Profile Image" style="width: 120px; height: 120px; border-radius: 50%; display: none;">
+            </div>
+            <div class="contact-info">
+                <div><strong>Name:</strong> <span id="resumeName"></span></div>
+                <div><strong>Email:</strong> <span id="resumeEmail"></span></div>
+                <div><strong>Phone:</strong> <span id="resumePhone"></span></div>
+            </div>
+
+            <div class="section-title">Skills:</div>
+            <div id="resumeSkills" class="content"></div>
+
+            <div class="section-title">Education:</div>
+            <div><strong>Degree:</strong> <span id="resumeEducation"></span></div>
+            <div><strong>Institution:</strong> <span id="resumeInstitution"></span></div>
+
+            <div class="section-title">Experience:</div>
+            <div><span id="resumeExperience"></span></div>
+        </div>
+    </div>
+
+    <script>
+        // Image preview for profile picture
+        function loadImage(event) {
+            const image = document.getElementById('profileImage');
+            const imgPreview = document.getElementById('resumeImage');
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    image.src = e.target.result;
+                    image.style.display = 'block'; // Show the image once uploaded
+
+                    // Display profile picture in resume section
+                    imgPreview.src = e.target.result;
+                    imgPreview.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            } else {
+                image.style.display = 'none';
+            }
+        }
+
+        // Function to generate resume
+        function generateResume() {
+            // Collecting data from form fields
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const skills = document.getElementById('skills').value.split(',').map(skill => skill.trim());
+            const education = document.getElementById('education').value;
+            const institution = document.getElementById('institution').value;
+            const experience = document.getElementById('experience').value;
+            const profilePic = document.getElementById('profileImage').src;
+
+            // Populating the resume
+            document.getElementById('resumeName').textContent = name;
+            document.getElementById('resumeEmail').textContent = email;
+            document.getElementById('resumePhone').textContent = phone;
+            document.getElementById('resumeEducation').textContent = education;
+            document.getElementById('resumeInstitution').textContent = institution;
+            document.getElementById('resumeExperience').textContent = experience;
+
+            // Display skills as a list
+            const skillsList = skills.map(skill => `<li>${skill}</li>`).join('');
+            document.getElementById('resumeSkills').innerHTML = `<ul class="skills-list">${skillsList}</ul>`;
+
+            if (profilePic) {
+                document.getElementById('resumeImage').src = profilePic;
+                document.getElementById('resumeImage').style.display = 'block';
+            }
+
+            // Show the resume section
+            document.getElementById('resumeSection').style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>
